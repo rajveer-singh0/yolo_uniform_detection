@@ -1,16 +1,26 @@
-
 from flask import Flask, request, jsonify, render_template
 import os
 import numpy as np
-from ultralytics import YOLO
+from ultralytics import YOLO, settings
 from PIL import Image
 
 app = Flask(__name__)
+
+# 🔹 Fix 1: Set Uploads Folder & Create It If Needed
 app.config["UPLOAD_FOLDER"] = "uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
-# Load YOLO model
-model = YOLO(r"C:\Users\rdpto\Desktop\piet_uniform_det\runs\detect\train2\weights\best.pt")
+# 🔹 Fix 2: Disable Ultralytics Online Sync (Prevents API Rate Limit Issues)
+settings.update({"sync": False, "runs_dir": "runs"})
+
+# 🔹 Fix 3: Ensure Model Path Exists & Is Relative
+MODEL_PATH = "weights/best.pt"  # Place 'best.pt' inside 'weights/' folder
+
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"⚠️ Model file not found: {MODEL_PATH}")
+
+# 🔹 Load YOLO Model
+model = YOLO(MODEL_PATH)
 
 @app.route("/")
 def index():
@@ -31,7 +41,10 @@ def predict():
 
     # Run YOLO detection
     results = model(image)
-    detections = results[0].boxes
+
+    # 🔹 Ensure results exist before accessing them
+    detections = results[0].boxes if len(results) > 0 else []
+
     class_labels = ["❌ Not Uniform", "✔️ Uniform"]  # Adjust based on dataset
 
     if len(detections) > 0:
@@ -42,4 +55,4 @@ def predict():
     return jsonify({"result": prediction, "file": file.filename})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
