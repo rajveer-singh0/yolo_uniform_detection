@@ -1,0 +1,13 @@
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names: ['Tie', 'uniform']
+
+roboflow:
+  workspace: rajveer-singh-yzxip
+  project: uniform_detection-kndbx
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/rajveer-singh-yzxip/uniform_detection-kndbx/dataset/1

@@ -1,0 +1,71 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uniform Detection</title>
+    <link rel="stylesheet" href=static\style.css>
+</head>
+<body>
+    <div class="container">
+        <h2>Uniform Detection</h2>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="uploadImage()">Upload Image</button>
+
+        <video id="camera" autoplay></video>
+        <button onclick="captureImage()">Capture from Camera</button>
+
+        <canvas id="canvas" style="display:none;"></canvas>
+        <p id="result"></p>
+    </div>
+    <script src=static\script.js></script>
+</body>
+</html> -->
+
+<!-- .......................code 3........................ -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uniform Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Uniform Detection</h2>
+        <p>Select an input method:</p>
+        
+        <div class="buttons">
+            <label class="upload-btn">
+                📂 Upload Image
+                <input type="file" id="imageUpload" accept="image/*" hidden>
+            </label>
+            <button class="camera-btn" onclick="startCamera()">📸 Use Camera</button>
+        </div>
+
+        <div id="drag-drop-area">
+            <p>Drag & Drop Image Here</p>
+        </div>
+
+        <video id="camera" autoplay style="display:none;"></video>
+        <button id="capture-btn" onclick="captureImage()" style="display:none;">Capture</button>
+        
+        <canvas id="canvas" style="display:none;"></canvas>
+    </div>
+
+    <div id="result-popup" class="popup">
+        <div class="popup-content">
+            <div id="result-icon" class="result-icon">🤔</div>
+            <h3 id="result-text">Processing...</h3>
+            <button onclick="closePopup()">Back</button>
+        </div>
+    </div>
+    
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
